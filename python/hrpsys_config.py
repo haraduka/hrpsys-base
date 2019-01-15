@@ -907,6 +907,8 @@ class HrpsysConfigurator(object):
             self.connectLoggerPort(self.st, 'debugData')
         if self.el != None:
             self.connectLoggerPort(self.el, 'q')
+        if self.te != None:
+            self.connectLoggerPort(self.te, 'tempOut')
         if self.rh != None:
             self.connectLoggerPort(self.rh, 'emergencySignal',
                                    'emergencySignal')

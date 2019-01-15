@@ -1,0 +1,55 @@
+/**
+ * @file ThermoEstimatorService.idl
+ * @brief Services for the thermoestimator interface
+ */
+module OpenHRP
+{
+  interface ThermoEstimatorService
+  {
+    typedef sequence<double> DblSequence;
+
+    /**
+     * @struct teParam
+     * @brief ThermoEstimator Parameters.
+     */
+    struct ThermoEstimatorParam {
+      double a;
+      double b;
+    };
+
+    /**
+     * @brief Set ThermoEstimator parameters.
+     * @param i_param is input parameters
+     * @return true if set successfully, false otherwise
+     */
+    boolean setParam(in ThermoEstimatorParam i_param);
+
+    /**
+     * @brief Get ThermoEstimator parameters.
+     * @param i_param is output parameters
+     * @return true if get successfully, false otherwise
+     */
+    boolean getParam(out ThermoEstimatorParam i_param);
+
+    /**
+     * @brief Set motor's temperature.
+     * @param temp is input motor temperatures
+     * @return true if get successfully, false otherwise
+     */
+    boolean setTemp(in DblSequence temp);
+
+    /**
+     * @brief Get motor's temperature.
+     * @param temp is output motor temperatures
+     * @return true if get successfully, false otherwise
+     */
+    boolean getTemp(out DblSequence temp);
+
+    /**
+     * @brief Set ThermoEstimator parameters.
+     * @return true if reset successfully, false otherwise
+     */
+    boolean reset();
+  };
+};
+

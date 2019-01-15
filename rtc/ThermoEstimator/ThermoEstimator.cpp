@@ -47,10 +47,11 @@ ThermoEstimator::ThermoEstimator(RTC::Manager* manager)
     m_qCurrentInIn("qCurrentIn", m_qCurrentIn),
     m_servoStateInIn("servoStateIn", m_servoStateIn),
     m_tempOutOut("tempOut", m_tempOut),
-    m_servoStateOutOut("servoStateOut", m_servoStateOut),    
-    // </rtc-template>
+    m_servoStateOutOut("servoStateOut", m_servoStateOut),
+    m_ThermoEstimatorServicePort("ThermoEstimatorService"),
     m_debugLevel(0)
 {
+    m_service0.thermoestimator(this);
 }
 
 ThermoEstimator::~ThermoEstimator()
@@ -79,10 +80,12 @@ RTC::ReturnCode_t ThermoEstimator::onInitialize()
   addOutPort("servoStateOut", m_servoStateOutOut);
   
   // Set service provider to Ports
+  m_ThermoEstimatorServicePort.registerProvider("service0", "ThermoEstimatorService", m_service0);
   
   // Set service consumers to Ports
   
   // Set CORBA Service Ports
+  addPort(m_ThermoEstimatorServicePort);
   
   // </rtc-template>
 
@@ -274,6 +277,7 @@ RTC::ReturnCode_t ThermoEstimator::onExecute(RTC::UniqueId ec_id)
       }
       std::cerr << std::endl;
     }
+    m_tempOut.tm = m_qRefIn.tm;
     m_tempOutOut.write();
   }
 
@@ -296,6 +300,7 @@ RTC::ReturnCode_t ThermoEstimator::onExecute(RTC::UniqueId ec_id)
       m_servoStateOut.data[i] = m_servoStateIn.data[i];
     }
   }
+  m_servoStateOut.tm = m_qRefIn.tm;
   m_servoStateOutOut.write();
   
   return RTC::RTC_OK;
@@ -335,6 +340,36 @@ RTC::ReturnCode_t ThermoEstimator::onExecute(RTC::UniqueId ec_id)
   return RTC::RTC_OK;
   }
 */
+
+CORBA::Boolean ThermoEstimator::setParam(const OpenHRP::ThermoEstimatorService::ThermoEstimatorParam& i_param)
+{
+    std::cerr << "setparam!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    return true;
+}
+
+CORBA::Boolean ThermoEstimator::getParam(OpenHRP::ThermoEstimatorService::ThermoEstimatorParam& i_param)
+{
+    std::cerr << "getparam!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    return true;
+}
+
+CORBA::Boolean ThermoEstimator::setTemp(const OpenHRP::ThermoEstimatorService::DblSequence& temp)
+{
+    std::cerr << "settemp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    return true;
+}
+
+CORBA::Boolean ThermoEstimator::getTemp(OpenHRP::ThermoEstimatorService::DblSequence& temp)
+{
+    std::cerr << "gettemp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    return true;
+}
+
+CORBA::Boolean ThermoEstimator::reset()
+{
+    std::cerr << "reset!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    return true;
+}
 
 void ThermoEstimator::estimateJointTorqueFromJointError(hrp::dvector &error, hrp::dvector &tau)
 {

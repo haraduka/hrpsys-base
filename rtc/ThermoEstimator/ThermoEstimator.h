@@ -11,6 +11,7 @@
 #define THERMO_ESTIMATOR_H
 
 #include <rtm/idl/BasicDataType.hh>
+#include <rtm/idl/ExtendedDataTypes.hh>
 #include "hrpsys/idl/HRPDataTypes.hh"
 #include <rtm/Manager.h>
 #include <rtm/DataFlowComponentBase.h>
@@ -18,6 +19,7 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 #include <rtm/idl/BasicDataTypeSkel.h>
+#include <rtm/idl/ExtendedDataTypesSkel.h>
 
 #include <hrpModel/Body.h>
 #include <hrpModel/Link.h>
@@ -27,7 +29,7 @@
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
-// #include "ThermoEstimator_impl.h"
+#include "ThermoEstimatorService_impl.h"
 
 // </rtc-template>
 
@@ -103,6 +105,11 @@ class ThermoEstimator
   // no corresponding operation exists in OpenRTm-aist-0.2.0
   // virtual RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id);
 
+  CORBA::Boolean setParam(const OpenHRP::ThermoEstimatorService::ThermoEstimatorParam& i_param);
+  CORBA::Boolean getParam(OpenHRP::ThermoEstimatorService::ThermoEstimatorParam& i_param);
+  CORBA::Boolean setTemp(const OpenHRP::ThermoEstimatorService::DblSequence& temp);
+  CORBA::Boolean getTemp(OpenHRP::ThermoEstimatorService::DblSequence& temp);
+  CORBA::Boolean reset();
 
  protected:
   // Configuration variable declaration
@@ -140,13 +147,13 @@ class ThermoEstimator
 
   // Service declaration
   // <rtc-template block="service_declare">
-  //RTC::CorbaPort m_ThermoEstimatorServicePort;
+  RTC::CorbaPort m_ThermoEstimatorServicePort;
   
   // </rtc-template>
 
   // Consumer declaration
   // <rtc-template block="consumer_declare">
-  //ThermoEstimatorService_impl m_ThermoEstimatorService;
+  ThermoEstimatorService_impl m_service0;
   
   // </rtc-template>
 
